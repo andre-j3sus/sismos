@@ -53,6 +53,8 @@ export interface Translations {
   km: string;
   // Footer
   updateFrequency: string;
+  madeWith: string;
+  by: string;
 }
 
 const pt: Translations = {
@@ -88,6 +90,8 @@ const pt: Translations = {
   clearFilters: "Limpar filtros",
   km: "km",
   updateFrequency: "atualiza a cada 5 min",
+  madeWith: "Feito com",
+  by: "por",
 };
 
 const en: Translations = {
@@ -123,6 +127,8 @@ const en: Translations = {
   clearFilters: "Clear filters",
   km: "km",
   updateFrequency: "refreshes every 5 min",
+  madeWith: "Made with",
+  by: "by",
 };
 
 const translations: Record<Locale, Translations> = { pt, en };
