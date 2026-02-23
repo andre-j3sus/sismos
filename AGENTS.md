@@ -140,6 +140,33 @@ export function Header({ timeFilter, ...rest }: HeaderProps) {
 - `//` for implementation notes and rationale ("why", not "what").
 - Section dividers in longer files: `// ── Section Name ──────────────`
 
+### Commits
+
+Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification.
+
+Format: `<type>(<optional scope>): <description>`
+
+Common types:
+- `feat`: new feature or functionality
+- `fix`: bug fix
+- `refactor`: code restructuring without behavior change
+- `style`: formatting, whitespace, missing semicolons (not CSS)
+- `docs`: documentation changes
+- `chore`: build config, dependencies, tooling
+- `a11y`: accessibility improvements
+- `perf`: performance improvements
+
+Examples:
+```
+feat: add dark mode toggle with OS preference detection
+fix(worker): handle IPMA API timeout gracefully
+a11y(header): add aria-labels to icon-only buttons
+docs: update AGENTS.md with conventional commits guideline
+chore: add .DS_Store to .gitignore
+```
+
+Keep descriptions concise (50-72 chars), lowercase, imperative mood, no period.
+
 ## Architecture Notes
 
 - **No routing library** — SPA with URL search params via `history.replaceState`.
