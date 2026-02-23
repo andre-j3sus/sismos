@@ -22,6 +22,9 @@ const SECURITY_HEADERS = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
 };
 
+/** Cache TTL in seconds — matches the frontend's 5-min refresh interval */
+const CACHE_TTL = 300;
+
 export default {
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -38,29 +41,15 @@ export default {
 
     try {
       if (url.pathname === "/api/earthquakes") {
-        // Fetch both regions in parallel
-        const [continent, azores] = await Promise.all([
-          fetchIPMA(7),
-          fetchIPMA(3),
-        ]);
-
-        const merged = {
-          continent,
-          azores,
-          lastUpdate: new Date().toISOString(),
-        };
-
-        return jsonResponse(merged, getCorsHeaders(request));
+        return handleCached(request, url, fetchAllEarthquakes);
       }
 
       if (url.pathname === "/api/earthquakes/continent") {
-        const data = await fetchIPMA(7);
-        return jsonResponse(data, getCorsHeaders(request));
+        return handleCached(request, url, () => fetchIPMA(7));
       }
 
       if (url.pathname === "/api/earthquakes/azores") {
-        const data = await fetchIPMA(3);
-        return jsonResponse(data, getCorsHeaders(request));
+        return handleCached(request, url, () => fetchIPMA(3));
       }
 
       return new Response("Not found", {
@@ -102,9 +91,59 @@ function jsonResponse(data: unknown, corsHeaders: Record<string, string>): Respo
   return new Response(JSON.stringify(data), {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=300",
+      "Cache-Control": `public, max-age=${CACHE_TTL}`,
       ...corsHeaders,
       ...SECURITY_HEADERS,
     },
   });
+}
+
+async function fetchAllEarthquakes(): Promise<unknown> {
+  const [continent, azores] = await Promise.all([
+    fetchIPMA(7),
+    fetchIPMA(3),
+  ]);
+
+  return {
+    continent,
+    azores,
+    lastUpdate: new Date().toISOString(),
+  };
+}
+
+/**
+ * Check the Cloudflare edge cache for a cached response. On miss,
+ * call the fetcher, cache the result at the edge for CACHE_TTL seconds,
+ * and return it. CORS headers are always set fresh per-request since
+ * they depend on the Origin header, but the cached body avoids hitting IPMA.
+ */
+async function handleCached(
+  request: Request,
+  url: URL,
+  fetcher: () => Promise<unknown>
+): Promise<Response> {
+  // Build a cache key without the Origin header so all users share the same entry
+  const cacheKey = new Request(url.toString(), { method: "GET" });
+  // caches.default is Cloudflare Workers' edge cache — not in DOM typings
+  const cache = (caches as unknown as { default: Cache }).default;
+
+  const cached = await cache.match(cacheKey);
+  if (cached) {
+    // Re-apply CORS headers for this specific request's Origin
+    const response = new Response(cached.body, cached);
+    const corsHeaders = getCorsHeaders(request);
+    for (const [key, value] of Object.entries(corsHeaders)) {
+      response.headers.set(key, value);
+    }
+    return response;
+  }
+
+  // Cache miss — fetch fresh data from IPMA
+  const data = await fetcher();
+  const response = jsonResponse(data, getCorsHeaders(request));
+
+  // Store in edge cache (clone because the body can only be consumed once)
+  await cache.put(cacheKey, response.clone());
+
+  return response;
 }
