@@ -7,6 +7,7 @@ interface RangeSliderProps {
   value: [number, number];
   onChange: (value: [number, number]) => void;
   formatLabel?: (value: number) => string;
+  label?: string;
 }
 
 const DEBOUNCE_MS = 150;
@@ -18,6 +19,7 @@ export function RangeSlider({
   value,
   onChange,
   formatLabel = (v) => String(v),
+  label,
 }: RangeSliderProps) {
   // Local state for smooth slider movement; debounce propagation to parent
   const [local, setLocal] = useState<[number, number]>(value);
@@ -91,6 +93,7 @@ export function RangeSlider({
           step={step}
           value={low}
           onChange={handleLow}
+          aria-label={label ? `${label} min` : undefined}
         />
         <input
           type="range"
@@ -99,6 +102,7 @@ export function RangeSlider({
           step={step}
           value={high}
           onChange={handleHigh}
+          aria-label={label ? `${label} max` : undefined}
         />
       </div>
 

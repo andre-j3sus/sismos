@@ -1,9 +1,25 @@
 const IPMA_BASE = "https://api.ipma.pt/open-data/observation/seismic";
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+const ALLOWED_ORIGINS = [
+  "https://sismos.andrejesus.com",
+  "http://localhost:5173",
+];
+
+function getCorsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get("Origin") ?? "";
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
 };
 
 export default {
@@ -17,7 +33,7 @@ export default {
 
     // CORS preflight
     if (request.method === "OPTIONS") {
-      return new Response(null, { headers: CORS_HEADERS });
+      return new Response(null, { headers: getCorsHeaders(request) });
     }
 
     try {
@@ -34,22 +50,22 @@ export default {
           lastUpdate: new Date().toISOString(),
         };
 
-        return jsonResponse(merged);
+        return jsonResponse(merged, getCorsHeaders(request));
       }
 
       if (url.pathname === "/api/earthquakes/continent") {
         const data = await fetchIPMA(7);
-        return jsonResponse(data);
+        return jsonResponse(data, getCorsHeaders(request));
       }
 
       if (url.pathname === "/api/earthquakes/azores") {
         const data = await fetchIPMA(3);
-        return jsonResponse(data);
+        return jsonResponse(data, getCorsHeaders(request));
       }
 
       return new Response("Not found", {
         status: 404,
-        headers: CORS_HEADERS,
+        headers: getCorsHeaders(request),
       });
     } catch (error) {
       console.error("Error fetching IPMA data:", error);
@@ -59,7 +75,8 @@ export default {
           status: 502,
           headers: {
             "Content-Type": "application/json",
-            ...CORS_HEADERS,
+            ...getCorsHeaders(request),
+            ...SECURITY_HEADERS,
           },
         }
       );
@@ -81,12 +98,13 @@ async function fetchIPMA(idArea: number) {
   return response.json();
 }
 
-function jsonResponse(data: unknown): Response {
+function jsonResponse(data: unknown, corsHeaders: Record<string, string>): Response {
   return new Response(JSON.stringify(data), {
     headers: {
       "Content-Type": "application/json",
       "Cache-Control": "public, max-age=300",
-      ...CORS_HEADERS,
+      ...corsHeaders,
+      ...SECURITY_HEADERS,
     },
   });
 }

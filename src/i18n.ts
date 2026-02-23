@@ -55,6 +55,13 @@ export interface Translations {
   updateFrequency: string;
   madeWith: string;
   by: string;
+  // Accessibility
+  hideList: string;
+  showList: string;
+  toggleFilters: string;
+  github: string;
+  // Data
+  unknownRegion: string;
 }
 
 const pt: Translations = {
@@ -71,17 +78,17 @@ const pt: Translations = {
   depth: "Prof.",
   continent: "Continente",
   madeira: "Madeira",
-  azores: "Acores",
+  azores: "Açores",
   depthLabel: "Profundidade",
   depthNA: "Profundidade: N/D",
   dataSource: "Dados",
-  ipmaName: "Instituto Portugues do Mar e da Atmosfera",
+  ipmaName: "Instituto Português do Mar e da Atmosfera",
   lastUpdated: "Atualizado",
   justNow: "agora mesmo",
-  minutesAgo: (n) => `ha ${n} min`,
-  hoursAgo: (n) => `ha ${n}h`,
+  minutesAgo: (n) => `há ${n} min`,
+  hoursAgo: (n) => `há ${n}h`,
   yesterday: "ontem",
-  daysAgo: (n) => `ha ${n} dias`,
+  daysAgo: (n) => `há ${n} dias`,
   dateLocale: "pt-PT",
   filters: "Filtros",
   magnitude: "Magnitude",
@@ -92,6 +99,11 @@ const pt: Translations = {
   updateFrequency: "atualiza a cada 5 min",
   madeWith: "Feito com",
   by: "por",
+  hideList: "Esconder lista",
+  showList: "Mostrar lista",
+  toggleFilters: "Alternar filtros",
+  github: "GitHub",
+  unknownRegion: "Desconhecido",
 };
 
 const en: Translations = {
@@ -129,6 +141,11 @@ const en: Translations = {
   updateFrequency: "refreshes every 5 min",
   madeWith: "Made with",
   by: "by",
+  hideList: "Hide list",
+  showList: "Show list",
+  toggleFilters: "Toggle filters",
+  github: "GitHub",
+  unknownRegion: "Unknown",
 };
 
 const translations: Record<Locale, Translations> = { pt, en };

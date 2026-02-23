@@ -1,0 +1,11 @@
+/* TEAM */
+Developer: André Jesus
+Site: https://andrejesus.com
+GitHub: https://github.com/andre-j3sus
+Location: Lisbon, Portugal
+
+/* SITE */
+Standards: HTML5, CSS3, ECMAScript 2020
+Stack: React 19, Vite 6, TypeScript 5, Tailwind CSS 4, Leaflet, Cloudflare Workers
+Data: IPMA (Instituto Português do Mar e da Atmosfera)
+Language: Portuguese / English

@@ -55,20 +55,21 @@ export function EarthquakeList({
     <div className="flex flex-col h-full">
       {/* Sticky list header: count + collapse button */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-200 dark:border-gray-700 shrink-0">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 tabular-nums">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 tabular-nums" aria-live="polite">
           {t.earthquakeCount(earthquakeCount)}
         </span>
         <button
           onClick={onToggleList}
           className="p-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer active:scale-95"
-          title="Hide list"
+          aria-label={t.hideList}
+          title={t.hideList}
         >
           {/* Desktop: right-pointing chevron (collapse to right) */}
-          <svg className="w-4 h-4 hidden lg:block" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+          <svg className="w-4 h-4 hidden lg:block" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
           {/* Mobile: down-pointing chevron (collapse down) */}
-          <svg className="w-4 h-4 lg:hidden" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+          <svg className="w-4 h-4 lg:hidden" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
           </svg>
         </button>
@@ -96,6 +97,7 @@ export function EarthquakeList({
               className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600"
               viewBox="0 0 100 100"
               fill="currentColor"
+              aria-hidden="true"
             >
               <circle cx="50" cy="50" r="45" opacity="0.15" />
               <circle cx="50" cy="50" r="30" opacity="0.2" />

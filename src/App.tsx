@@ -109,13 +109,14 @@ export default function App() {
           {/* Desktop: top-right corner */}
           <button
             onClick={() => setListOpen(true)}
+            aria-label={t.showList}
             className={`${listOpen ? "pointer-events-none" : "pointer-events-auto"} hidden lg:flex items-center gap-2 absolute right-3 top-3
               bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700
               shadow-lg rounded-lg px-3 py-2.5
               text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800
               transition-all duration-200 cursor-pointer active:scale-95`}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
             <span className="text-sm font-medium tabular-nums">
@@ -126,13 +127,14 @@ export default function App() {
           {/* Mobile: bottom edge, centered */}
           <button
             onClick={() => setListOpen(true)}
+            aria-label={t.showList}
             className={`${listOpen ? "pointer-events-none" : "pointer-events-auto"} flex lg:hidden items-center gap-2 absolute bottom-3 left-1/2 -translate-x-1/2
               bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700
               shadow-lg rounded-lg px-3 py-2.5
               text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800
               transition-all duration-200 cursor-pointer active:scale-95`}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
             </svg>
             <span className="text-sm font-medium tabular-nums">

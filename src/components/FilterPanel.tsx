@@ -62,6 +62,7 @@ export function FilterPanel({
                 onFiltersChange({ ...filters, magnitudeRange })
               }
               formatLabel={(v) => v.toFixed(1)}
+              label={t.magnitude}
             />
           </div>
         </div>
@@ -81,6 +82,7 @@ export function FilterPanel({
                 onFiltersChange({ ...filters, depthRange })
               }
               formatLabel={(v) => `${v} ${t.km}`}
+              label={t.depthFilter}
             />
           </div>
         </div>
@@ -98,6 +100,7 @@ export function FilterPanel({
                   <button
                     key={r.value}
                     onClick={() => toggleRegion(r.value)}
+                    aria-pressed={isActive}
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full border transition-all duration-200 cursor-pointer active:scale-95 ${
                       isActive
                         ? "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 shadow-sm font-medium"

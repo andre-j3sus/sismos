@@ -40,7 +40,7 @@ function parseEarthquake(
     magnitude: parseFloat(raw.magnitud),
     magType: raw.magType,
     depth: raw.depth,
-    region: raw.obsRegion || raw.local || "Desconhecido",
+    region: raw.obsRegion || raw.local || "—",
     local: raw.local,
     degree: raw.degree,
     source: raw.source,
@@ -118,7 +118,7 @@ export function useEarthquakes(
       setError(
         err instanceof Error
           ? err.message
-          : "Erro ao carregar dados sismicos"
+          : "Failed to load seismic data"
       );
     } finally {
       setLoading(false);
