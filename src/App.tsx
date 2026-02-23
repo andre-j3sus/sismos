@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { FilterPanel } from "./components/FilterPanel";
@@ -28,7 +28,15 @@ export default function App() {
   const { locale, setLocale, t } = useLocale();
   const [selectedId, setSelectedId] = useState<string | null>(initialUrlState.selectedId);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [listOpen, setListOpen] = useState(true);
+  const [listOpen, setListOpen] = useState(() => window.innerWidth >= 1024);
+
+  // On mobile, collapse the list when selecting an earthquake so the map is visible
+  const handleListSelect = useCallback((id: string | null) => {
+    setSelectedId(id);
+    if (id !== null && window.innerWidth < 1024) {
+      setListOpen(false);
+    }
+  }, []);
 
   // Sync current state → URL search params (replaceState, no history pollution)
   useSyncSearchParams({ timeFilter, filters, selectedId });
@@ -90,7 +98,7 @@ export default function App() {
           <EarthquakeList
             earthquakes={earthquakes}
             selectedId={selectedId}
-            onSelect={setSelectedId}
+            onSelect={handleListSelect}
             loading={loading}
             error={error}
             t={t}

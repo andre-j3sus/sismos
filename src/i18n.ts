@@ -60,6 +60,8 @@ export interface Translations {
   showList: string;
   toggleFilters: string;
   github: string;
+  // Map controls
+  resetView: string;
   // Data
   unknownRegion: string;
 }
@@ -103,6 +105,7 @@ const pt: Translations = {
   showList: "Mostrar lista",
   toggleFilters: "Alternar filtros",
   github: "GitHub",
+  resetView: "Repor vista",
   unknownRegion: "Desconhecido",
 };
 
@@ -145,6 +148,7 @@ const en: Translations = {
   showList: "Show list",
   toggleFilters: "Toggle filters",
   github: "GitHub",
+  resetView: "Reset view",
   unknownRegion: "Unknown",
 };
 

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { Earthquake } from "../types";
 import type { Translations } from "../i18n";
 import { MagnitudeBadge } from "./MagnitudeBadge";
@@ -51,6 +52,17 @@ export function EarthquakeList({
   earthquakeCount,
   onToggleList,
 }: EarthquakeListProps) {
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to the selected item when selection changes
+  useEffect(() => {
+    if (!selectedId || !listRef.current) return;
+    const el = listRef.current.querySelector(`[data-eq-id="${selectedId}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [selectedId]);
+
   return (
     <div className="flex flex-col h-full">
       {/* Sticky list header: count + collapse button */}
@@ -108,7 +120,7 @@ export function EarthquakeList({
           </div>
         </div>
       ) : (
-        <div className="earthquake-list overflow-y-auto flex-1 scroll-smooth">
+        <div ref={listRef} className="earthquake-list overflow-y-auto flex-1 scroll-smooth">
           {earthquakes.map((eq) => {
             const isSelected = eq.id === selectedId;
             const colors = getMagnitudeColor(eq.magnitude);
@@ -117,6 +129,7 @@ export function EarthquakeList({
             return (
               <button
                 key={eq.id}
+                data-eq-id={eq.id}
                 onClick={() => onSelect(isSelected ? null : eq.id)}
                 className={`group w-full text-left px-4 py-3 border-b border-gray-100 dark:border-gray-800 transition-all duration-150 cursor-pointer ${
                   isSelected
