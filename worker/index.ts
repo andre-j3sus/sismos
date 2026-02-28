@@ -1,7 +1,7 @@
 const IPMA_BASE = "https://api.ipma.pt/open-data/observation/seismic";
 
 const ALLOWED_ORIGINS = [
-  "https://sismos.andrejesus.com",
+  "https://sismos.net",
   "http://localhost:5173",
 ];
 
@@ -76,7 +76,7 @@ export default {
 async function fetchIPMA(idArea: number) {
   const response = await fetch(`${IPMA_BASE}/${idArea}.json`, {
     headers: {
-      "User-Agent": "sismos.pt/1.0 (earthquake monitor)",
+      "User-Agent": "sismos.net/1.0 (earthquake monitor)",
     },
   });
 

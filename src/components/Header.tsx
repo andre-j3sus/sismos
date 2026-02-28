@@ -71,7 +71,7 @@ export function Header({
             </svg>
             <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
               Sismos
-              <span className="text-red-500">.pt</span>
+              <span className="text-red-500">.net</span>
             </h1>
           </div>
         </div>

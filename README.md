@@ -1,6 +1,6 @@
-# sismos.pt
+# sismos.net
 
-**[sismos.andrejesus.com](https://sismos.andrejesus.com)**
+**[sismos.net](https://sismos.net)**
 
 Real-time earthquake monitor for Portugal. Displays seismic data from [IPMA](https://www.ipma.pt) (Instituto Português do Mar e da Atmosfera) on an interactive map.
 

@@ -7,10 +7,11 @@
     "not_found_handling": "single-page-application"
   },
   "observability": {
-    "enabled": true,
+    "enabled": true
   },
   "workers_dev": false,
   "routes": [
-    { "pattern": "sismos.andrejesus.com", "custom_domain": true }
+    { "pattern": "sismos.net", "custom_domain": true },
+    { "pattern": "sismos.andrejesus.com/*", "zone_name": "andrejesus.com" }
   ]
 }

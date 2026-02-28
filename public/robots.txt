@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sismos.andrejesus.com/sitemap.xml
+Sitemap: https://sismos.net/sitemap.xml
